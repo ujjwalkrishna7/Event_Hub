@@ -1,15 +1,15 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div class="content-section">
+    <div class="content-section mt-5 mb-3">
         <form method="POST" action="">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Log In</legend>
-                <div class="form-group">
-                    {{ form.email.label(class="form-control-label") }}
+                <div class="form-group mb-3">
+                    {{ form.email.label(class="form-control-label mb-3") }}
                     {% if form.email.errors %}
                         {{ form.email(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
+                        <div class="invalid-feedback mb-3">
                             {% for error in form.email.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
@@ -18,11 +18,11 @@
                         {{ form.email(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
-                <div class="form-group">
-                    {{ form.password.label(class="form-control-label") }}
+                <div class="form-group mb-3">
+                    {{ form.password.label(class="form-control-label mb-3") }}
                     {% if form.password.errors %}
                         {{ form.password(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
+                        <div class="invalid-feedback mb-3">
                             {% for error in form.password.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
@@ -31,12 +31,12 @@
                         {{ form.password(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
-                <div class="form-check">
+                <div class="form-check mb-3">
                     {{ form.remember(class="form-check-input") }}
                     {{ form.remember.label(class="form-check-label") }}
                 </div>
             </fieldset>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 {{ form.submit(class="btn btn-outline-info") }}
             </div>
             <small class="text-muted ml-2">

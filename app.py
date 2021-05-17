@@ -1,6 +1,6 @@
 from flask import Flask,render_template,url_for,flash, redirect
-from forms  import RegistrationForm, LoginForm
-
+from forms import RegistrationForm, LoginForm # type: ignore
+from wtforms.validators import Email
 
 app = Flask(__name__)
 
@@ -39,7 +39,7 @@ def about():
 def register():
    form = RegistrationForm()
    if form.validate_on_submit():
-    flash("Account created for {}!".format(form.username.data),'success')
+    flash(f'Account created for {form.username.data}!','success')
     return redirect(url_for('home'))
    return render_template("register.html",title = "Register", form = form)
 
