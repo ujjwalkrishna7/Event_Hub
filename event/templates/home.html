@@ -14,7 +14,7 @@
                       <p class="card-text mb-2">{{ event.description }}</p>
                       <div class="mb-2"><a class="text-decoration-none " href="{{ url_for('user_events', username=event.author.username) }}">{{ event.author.username }}</a></div>
                       
-                      <a href="{{ url_for('event', event_id=event.id) }}" class="btn btn-primary">Take to link</a>
+                      <a href="{{ url_for('event', event_id=event.id) }}" class="btn btn-primary">Event Details</a>
                       
                     </div>
                   </div>

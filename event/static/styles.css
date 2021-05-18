@@ -14,12 +14,6 @@ body {
     
   }
 
-  .navbar-brand{
-    font-weight: 700;
-    
-    
-
-  }
   
   h1, h2, h3, h4, h5, h6 {
     color: #444444;
@@ -100,6 +94,35 @@ body {
     height: 15vw;
     object-fit: cover;
 }
+
+body{
+  font-family: 'Montserrat', sans-serif;
+}
+
+h1{
+  font-family: 'Montserrat', sans-serif;
+  font-weight:900;
+  font-size:3.5rem;
+  line-height: 1.5;
+  
+}
+h2{
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold ;
+  font-size: 3rem;
+  line-height: 1.5;
+}
+
+
+.navbar-brand{
+  font-family: 'Ubuntu', sans-serif;
+  font-weight:bold;
+  font-size: 2rem;
+}
+
+
+
+
 
 
 
