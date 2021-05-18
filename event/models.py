@@ -1,5 +1,5 @@
 from datetime import datetime
-from event import db, login_manager
+from event import db, login_manager # type: ignore
 from flask_login import UserMixin
 
 
@@ -23,13 +23,13 @@ class Event(db.Model):
     id = db.Column(db.Integer,primary_key = True)
     name = db.Column(db.String(1200),nullable = False)
     posted = db.Column(db.DateTime,nullable=False,default = datetime.now())
-    date = db.Column(db.DateTime,nullable=False)
-    time = db.Column(db.DateTime,nullable=False)
-    venue = db.Column(db.String(100),nullable = False)
+    date = db.Column(db.DateTime,nullable=True)
+    time = db.Column(db.DateTime,nullable=True)
+    venue = db.Column(db.String(100),nullable = True)
     description = db.Column(db.String(2000),nullable = False)
-    poster = db.Column(db.String(20),nullable=False, default = 'default.jpeg')
+    poster = db.Column(db.String(20),nullable=True, default = 'default.jpeg')
     user_id = db.Column(db.Integer,db.ForeignKey('user.id'),nullable = False)
     
 
 def __repr__(self):
-    return f"Post('{self.name}','{self.event_posted}'"
+    return f"Event('{self.name}', '{self.posted}')"

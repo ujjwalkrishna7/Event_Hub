@@ -2,10 +2,10 @@ import os
 import secrets
 from PIL import Image
 
-from flask import render_template, url_for, flash, redirect,request
-from event import app, db, bcrypt
-from event.forms import RegistrationForm, LoginForm, UpdateAccountForm
-from event.models import User, Event
+from flask import render_template, url_for, flash, redirect,request, abort
+from event import app, db, bcrypt # type: ignore
+from event.forms import RegistrationForm, LoginForm, UpdateAccountForm, EventForm # type: ignore
+from event.models import User, Event # type: ignore
 from flask_login import login_user, current_user, logout_user, login_required
 
 events = [
@@ -29,6 +29,8 @@ events = [
 @app.route("/")
 @app.route("/home")
 def home():
+    page = request.args.get('page', 1, type=int)
+    events = Event.query.order_by(Event.posted.desc()).paginate(page=page, per_page=8)    
     return render_template('home.html', event_value=events)
 
 
@@ -112,3 +114,64 @@ def account():
         'static', filename='profile_pics/' + current_user.image_file)
     return render_template('account.html', title='Account',
                            image_file=image_file, form=form)
+
+@app.route("/event/new", methods=['GET', 'POST'])
+@login_required
+def new_event():
+    form = EventForm()
+    if form.validate_on_submit():
+        event = Event(name=form.name.data, description=form.description.data, author=current_user)
+        db.session.add(event)
+        db.session.commit()
+        flash('Your Event has been created!', 'success')
+        return redirect(url_for('home'))
+    return render_template('create_event.html', title='New Event',
+                           form=form, legend='Create a New Event')
+                           
+
+@app.route("/event/<int:event_id>")
+def event(event_id):
+    event = Event.query.get_or_404(event_id)
+    return render_template('event.html', title=event.name, event=event)
+
+
+@app.route("/event/<int:event_id>/update", methods=['GET', 'POST'])
+@login_required
+def update_event(event_id):
+    event = Event.query.get_or_404(event_id)
+    if event.author != current_user:
+        abort(403)
+    form = EventForm()
+    if form.validate_on_submit():
+        event.name = form.name.data
+        event.description = form.description.data
+        db.session.commit()
+        flash('Your Event has been updated!', 'success')
+        return redirect(url_for('event', event_id=event.id))
+    elif request.method == 'GET':
+        form.name.data = event.name
+        form.description.data = event.description
+    return render_template('create_event.html', title='Update Event',
+                           form=form, legend='Update your Event')    
+
+
+@app.route("/event/<int:event_id>/delete", methods=['POST'])
+@login_required
+def delete_event(event_id):
+    event = Event.query.get_or_404(event_id)
+    if event.author != current_user:
+        abort(403)
+    db.session.delete(event)
+    db.session.commit()
+    flash('Your Event has been deleted!', 'success')
+    return redirect(url_for('home'))
+
+
+@app.route("/user/<string:username>")
+def user_events(username):
+    page = request.args.get('page', 1, type=int)
+    user = User.query.filter_by(username=username).first_or_404()
+    events = Event.query.filter_by(author=user)\
+        .order_by(Event.posted.desc())\
+        .paginate(page=page, per_page=8)
+    return render_template('user_events.html', events=events, user=user)    
