@@ -41,7 +41,7 @@ class Event(db.Model):
     time = db.Column(db.Time,nullable=True)
     venue = db.Column(db.String(100),nullable = True)
     description = db.Column(db.String(2000),nullable = False)
-    #banner = db.Column(db.String(20),nullable=True,default='default.png')
+    banner = db.Column(db.String(20),nullable=True,default='default.png')
     user_id = db.Column(db.Integer,db.ForeignKey('user.id'),nullable = False)
     max = db.Column(db.Integer,nullable =True)
     

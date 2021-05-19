@@ -8,7 +8,7 @@
             
             <div class="col-md-6">
                 <div class="card" style="width: 18rem;">
-                    <img src="https://assets-global.website-files.com/5ae98eec19474e9f8c0cd052/5ae98eec19474e48570cd278_coveredited.jpg" class="card-img-top" alt="">
+                    <img src="{{url_for('static', filename='banner_pics/' + event.banner)}}" class="card-img-top" alt="">
                     <div class="card-body">
                       <h5 class="card-title">{{ event.name }} <small class="text-muted"> {{ event.posted.strftime('%m-%d') }} </small></h5>
                       <p class="card-text">{{ event.description }}</p>

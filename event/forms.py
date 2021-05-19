@@ -3,7 +3,7 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField,DateTimeField,DateField,TimeField,IntegerField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, InputRequired
 from event.models import User # type: ignore
 
 class RegistrationForm(FlaskForm):
@@ -67,7 +67,7 @@ class EventForm(FlaskForm):
     date = DateField('Date', validators=[DataRequired()])
     time = TimeField('Time',validators=[DataRequired()])
     max = IntegerField('Maximum Participants',validators=[DataRequired()])
-    #banner =FileField('Update Banner', validators=[FileAllowed(['jpg', 'png','jpeg'])])
+    banner =FileField('Update Banner', validators=[FileAllowed(['jpg', 'png','jpeg']),InputRequired()])
     submit = SubmitField('Submit')
 
 
