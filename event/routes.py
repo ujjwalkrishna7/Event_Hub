@@ -116,11 +116,29 @@ def account():
     return render_template('account.html', title='Account',
                            image_file=image_file, form=form)
 
+
+def save_banner(form_banner):
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_banner.filename)
+    banner_fn = random_hex + f_ext
+    banner_path = os.path.join(
+        app.root_path, 'static/banner_pics', banner_fn)
+
+    output_size = (125, 125)
+    i = Image.open(form_banner)
+    i.thumbnail(output_size)
+    i.save(banner_path)
+
+    return banner_fn
+
 @app.route("/event/new", methods=['GET', 'POST'])
 @login_required
 def new_event():
     form = EventForm()
     if form.validate_on_submit():
+        if form.banner.data:
+            banner_file = save_picture(form.picture.data)
+            current_user.image_file = banner_file
         event = Event(name=form.name.data, description=form.description.data, author=current_user,venue = form.venue.data,date = form.date.data,time =form.time.data,max = form.max.data)
         db.session.add(event)
         db.session.commit()
