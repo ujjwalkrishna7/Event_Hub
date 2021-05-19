@@ -63,6 +63,8 @@ class UpdateAccountForm(FlaskForm):
 class EventForm(FlaskForm):
     name = StringField('Event Name', validators=[DataRequired()])
     description = TextAreaField('Description', validators=[DataRequired()])
+    venue = StringField('Venue', validators=[DataRequired()])
+    date = StringField('Date', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 

@@ -31,6 +31,32 @@
                     {{ form.description(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
+            <div class="form-group mb-3">
+                {{ form.venue.label(class="form-control-label mb-3") }}
+                {% if form.venue.errors %}
+                {{ form.venue(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback mb-3">
+                    {% for error in form.venue.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.venue(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group mb-3">
+                {{ form.date.label(class="form-control-label mb-3") }}
+                {% if form.date.errors %}
+                {{ form.date(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback mb-3">
+                    {% for error in form.date.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.venue(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
         </fieldset>
         <div class="form-group mb-3">
             {{ form.submit(class="btn btn-outline-info") }}
