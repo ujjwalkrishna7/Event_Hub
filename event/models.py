@@ -37,12 +37,13 @@ class Event(db.Model):
     id = db.Column(db.Integer,primary_key = True)
     name = db.Column(db.String(1200),nullable = False)
     posted = db.Column(db.DateTime,nullable=False,default = datetime.now())
-    date = db.Column(db.DateTime,nullable=True)
-    time = db.Column(db.DateTime,nullable=True)
+    date = db.Column(db.Date,nullable=True)
+    time = db.Column(db.Time,nullable=True)
     venue = db.Column(db.String(100),nullable = True)
     description = db.Column(db.String(2000),nullable = False)
-    poster = db.Column(db.String(20),nullable=True, default = 'default.jpeg')
+    #banner = db.Column(db.String(20),nullable=True,default='default.png')
     user_id = db.Column(db.Integer,db.ForeignKey('user.id'),nullable = False)
+    max = db.Column(db.Integer,nullable =True)
     
 
 def __repr__(self):

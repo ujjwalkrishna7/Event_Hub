@@ -121,7 +121,7 @@ def account():
 def new_event():
     form = EventForm()
     if form.validate_on_submit():
-        event = Event(name=form.name.data, description=form.description.data, author=current_user,venue = form.venue.data,date = form.date.data)
+        event = Event(name=form.name.data, description=form.description.data, author=current_user,venue = form.venue.data,date = form.date.data,time =form.time.data,max = form.max.data)
         db.session.add(event)
         db.session.commit()
         flash('Your Event has been created!', 'success')
