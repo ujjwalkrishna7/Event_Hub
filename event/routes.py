@@ -39,6 +39,12 @@ def home():
 def about():
     return render_template('about.html', title='About')
 
+@app.route("/approve")
+def approve_admin():
+    page = request.args.get('page', 1, type=int)
+    events = Event.query.order_by(Event.posted.desc()).paginate(page=page, per_page=8)        
+    return render_template('approve_admin.html', title='Approve',event_value=events)
+
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -78,21 +84,6 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('home'))
-
-@app.route("/myevents")
-def myevents():
-    registered_event = Registered.query.filter_by(userId = current_user.id).all()
-    x = len(registered_event)
-    new_list = []
-    for i in range(x):
-        new_list.append(registered_event[i].eventId)
-    event_list = []
-    for i in new_list:
-        event_list.append(Event.query.get_or_404(i))
-    size = len(event_list)
-    
-    return render_template('myevent.html',event_list =event_list,size = size)
-
 
 
 def save_picture(form_picture):
@@ -155,7 +146,7 @@ def new_event():
         event = Event(name=form.name.data, description=form.description.data, author=current_user,venue = form.venue.data,date = form.date.data,time =form.time.data,max = form.max.data, banner = banner_file )
         db.session.add(event)    
         db.session.commit()
-        flash('Your Event has been created!', 'success')
+        flash('Your Event has been created, and is waiting to be Approved !', 'success')
         return redirect(url_for('home'))
     return render_template('create_event.html', title='New Event',
                            form=form, legend='Create a New Event')
@@ -165,8 +156,36 @@ def new_event():
 def event(event_id):
     event = Event.query.get_or_404(event_id)
     no_reg = len(Registered.query.filter_by(eventId = event.id).all())
-    return render_template('event.html', title=event.name, event=event, no_reg = no_reg)
+    register_status = Registered.query.filter_by(userId = current_user.id).all()
+    x = len(register_status)
+    new_list = []
+    for i in range(x):
+        new_list.append(register_status[i].eventId)
+    event_list = []
+    for i in new_list:
+        event_list.append(Event.query.get_or_404(i))  
+    size = len(event_list)
+    eventName_list =[]
+    for i in range(size):
+        eventName_list.append(event_list[i].name)
+    size = len(eventName_list)
+        
 
+    return render_template('event.html', title=event.name, event=event, no_reg = no_reg,eventName_list =eventName_list, size=size)
+
+@app.route("/approve_event/<int:event_id>")
+def event_approve(event_id):
+    event = Event.query.get_or_404(event_id)
+    return render_template('approve_event.html', title=event.name, event=event)    
+
+@app.route("/approve_event/<int:event_id>/approve", methods=['POST'])
+@login_required
+def approving_event(event_id):
+    event = Event.query.get_or_404(event_id)
+    event.is_verified = True
+    db.session.commit()
+    flash('The event has been Approved!', 'success')
+    return redirect(url_for('home'))
 
 
 @app.route("/event/<int:event_id>/update", methods=['GET', 'POST'])
@@ -185,6 +204,11 @@ def update_event(event_id):
     elif request.method == 'GET':
         form.name.data = event.name
         form.description.data = event.description
+        form.venue.data = event.venue
+        form.date.data = event.date
+        form.time.data = event.time
+        form.max.data = event.max
+
     return render_template('create_event.html', title='Update Event',
                            form=form, legend='Update your Event')    
 
@@ -193,24 +217,11 @@ def update_event(event_id):
 @login_required
 def delete_event(event_id):
     event = Event.query.get_or_404(event_id)
-    if event.author != current_user:
+    if event.author != current_user and current_user.is_admin == False :
         abort(403)
     db.session.delete(event)
     db.session.commit()
     flash('Your Event has been deleted!', 'success')
-    return redirect(url_for('home'))
-
-
-
-@app.route("/event/<int:event_id>/register", methods=['POST'])
-@login_required
-def register_event(event_id):
-    event = Event.query.get_or_404(event_id)
-    #registered_user = Registered.query.filter_by(userMail = current_user.email)
-    registered = Registered(eventId=event.id,userMail = current_user.email,userId = current_user.id)
-    db.session.add(registered)
-    db.session.commit()
-    flash('You have been registered for the event','success')
     return redirect(url_for('home'))
 
 
@@ -266,3 +277,30 @@ def reset_token(token):
         flash('Your password has been updated! You are now able to log in', 'success')
         return redirect(url_for('login'))
     return render_template('reset_token.html', title='Reset Password', form=form)
+
+
+
+@app.route("/event/<int:event_id>/register", methods=['POST'])
+@login_required
+def register_event(event_id):
+    event = Event.query.get_or_404(event_id)
+    #registered_user = Registered.query.filter_by(userMail = current_user.email)
+    registered = Registered(eventId=event.id,userMail = current_user.email,userId = current_user.id)
+    db.session.add(registered)
+    db.session.commit()
+    flash('You have been registered for the event','success')
+    return redirect(url_for('home'))
+
+@app.route("/myevents")
+def myevents():
+    registered_event = Registered.query.filter_by(userId = current_user.id).all()
+    x = len(registered_event)
+    new_list = []
+    for i in range(x):
+        new_list.append(registered_event[i].eventId)
+    event_list = []
+    for i in new_list:
+        event_list.append(Event.query.get_or_404(i))
+    size = len(event_list)
+    
+    return render_template('myevent.html',event_list =event_list,size = size)    

@@ -1,7 +1,9 @@
+from flask import abort
 from datetime import datetime
-from event import db, login_manager,app # type: ignore
-from flask_login import UserMixin
+from event import db, login_manager,app, admin # type: ignore
+from flask_login import UserMixin, current_user
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from flask_admin.contrib.sqla import ModelView
 
 
 @login_manager.user_loader
@@ -15,6 +17,7 @@ class User(db.Model,UserMixin):
     image_file = db.Column(db.String(20), nullable = False, default='default.png')
     password = db.Column(db.String(60),nullable=False)
     event_post = db.relationship('Event',backref='author', lazy = True)
+    is_admin =  db.Column(db.Boolean, default=False)    
 
     def __repr__(self):
         return f"User('{self.username},'{self.email}','{self.image_file}')"
@@ -44,19 +47,35 @@ class Event(db.Model):
     banner = db.Column(db.String(20),nullable=True,default='default.png')
     user_id = db.Column(db.Integer,db.ForeignKey('user.id'),nullable = False)
     max = db.Column(db.Integer,nullable =True)
-
+    is_verified =  db.Column(db.Boolean, default=False)
 
 class Registered(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     eventId = db.Column(db.Integer, nullable=False)
-    userId = db.Column(db.Integer, nullable=False,unique=True)
+    userId = db.Column(db.Integer, nullable=False)
     userMail = db.Column(db.String(100), nullable=False)
 
     def __repr__(self):
-        return f"User('{self.eventId},'{self.userId}','{self.userMail}')"
+        return f"User('{self.eventId},'{self.userId}','{self.userMail}')"    
+    
+
+class Controller(ModelView):
+    def is_accessible(self):
+        if current_user.is_admin == True:
+            return current_user.is_authenticated
+        else:
+            return abort(404)
+
         
 
 
+
+
+
+admin.add_view(Controller(User, db.session))    
+admin.add_view(Controller(Event, db.session)) 
+admin.add_view(Controller(Registered, db.session))  
+    
 
 def __repr__(self):
     return f"Event('{self.name}', '{self.posted}')"

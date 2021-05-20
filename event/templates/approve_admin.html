@@ -7,7 +7,7 @@
         <div class="row">
           
           {% for event in event_value.items %}
-            {% if event.is_verified == True %}
+            {% if event.is_verified == False %}
             <div class="col-md-3 mb-5">
                 <div class="card" style="width: 18rem;">
                     <img src="{{url_for('static', filename='banner_pics/' + event.banner)}}" class="card-img-top" alt="">
@@ -16,7 +16,7 @@
                       <p class="card-text mb-2">{{ event.description }}</p>
                       <div class="mb-2"><a class="text-decoration-none " href="{{ url_for('user_events', username=event.author.username) }}">{{ event.author.username }}</a></div>
                       
-                      <a href="{{ url_for('event', event_id=event.id) }}" class="btn btn-primary">Event Details</a>
+                      <a href="{{ url_for('event_approve', event_id=event.id) }}" class="btn btn-primary">Event Details</a>
                       
                     </div>
                   </div>
