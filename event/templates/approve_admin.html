@@ -6,7 +6,7 @@
         <div class="container mt-5">
         <div class="row">
           
-          {% for event in event_value.items %}
+          {% for event in event_value %}
             {% if event.is_verified == False %}
             <div class="col-md-3 mb-5">
                 <div class="card" style="width: 18rem;">
@@ -33,17 +33,6 @@
 
     </section>
 
-    {% for page_num in event_value.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-      {% if page_num %}
-        {% if event_value.page == page_num %}
-          <a class="btn btn-dark mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
-        {% else %}
-          <a class="btn btn-outline-dark mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
-        {% endif %}
-      {% else %}
-        ...
-      {% endif %}
-    {% endfor %}
     
 {% endblock content %}
 

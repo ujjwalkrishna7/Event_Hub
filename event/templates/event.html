@@ -18,6 +18,8 @@
                       </p>Allowed no.of Participants : <em>{{ event.max }}</em>
                       <p>Total students enrolled : {{ no_reg }}</p>
 
+                      {% if current_user.is_authenticated %}
+
                       {% if event.author == current_user %}
                       <div>
                         <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('update_event', event_id=event.id) }}">Update</a>
@@ -60,7 +62,7 @@
 
 
             
-
+            {% endif %}
                     </div>
                   </div>
             </div>

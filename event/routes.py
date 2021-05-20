@@ -9,23 +9,6 @@ from event.models import User, Event, Registered # type: ignore
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
 
-events = [
-    {
-        'user': 'CET',
-        'event_title': 'Dhwani',
-        'content': 'CET Cultural Fest',
-        'date_posted': 'May 13, 2025',
-        'url': 'https://assets-global.website-files.com/5ae98eec19474e9f8c0cd052/5ae98eec19474e48570cd278_coveredited.jpg'
-    },
-    {
-        'user': 'CET',
-        'event_title': 'Dhristi',
-        'content': 'CET Technical Fest',
-        'date_posted': 'Jan 18 2025',
-        'url': 'https://scontent.fsxv2-1.fna.fbcdn.net/v/t1.6435-9/44989850_2002772483135958_1128974446296563712_n.jpg?_nc_cat=106&ccb=1-3&_nc_sid=973b4a&_nc_ohc=9xnzeCEsFb8AX87kP2p&_nc_ht=scontent.fsxv2-1.fna&oh=97a88af0ebc51835f4b4066723f5f033&oe=60C73ED2'
-    }
-]
-
 
 @app.route("/")
 @app.route("/home")
@@ -41,8 +24,9 @@ def about():
 
 @app.route("/approve")
 def approve_admin():
-    page = request.args.get('page', 1, type=int)
-    events = Event.query.order_by(Event.posted.desc()).paginate(page=page, per_page=8)        
+    #page = request.args.get('page', 1, type=int)
+    #events = Event.query.order_by(Event.posted.desc()).paginate(page=page, per_page=8)       
+    events = Event.query.filter(Event.is_verified.is_(False)).all() 
     return render_template('approve_admin.html', title='Approve',event_value=events)
 
 
@@ -156,22 +140,25 @@ def new_event():
 def event(event_id):
     event = Event.query.get_or_404(event_id)
     no_reg = len(Registered.query.filter_by(eventId = event.id).all())
-    register_status = Registered.query.filter_by(userId = current_user.id).all()
-    x = len(register_status)
-    new_list = []
-    for i in range(x):
-        new_list.append(register_status[i].eventId)
-    event_list = []
-    for i in new_list:
-        event_list.append(Event.query.get_or_404(i))  
-    size = len(event_list)
-    eventName_list =[]
-    for i in range(size):
-        eventName_list.append(event_list[i].name)
-    size = len(eventName_list)
-        
+    if current_user.is_authenticated:
+        register_status = Registered.query.filter_by(userId = current_user.id).all()
+        x = len(register_status)
+        new_list = []
+        for i in range(x):
+            new_list.append(register_status[i].eventId)
+        event_list = []
+        for i in new_list:
+            event_list.append(Event.query.get_or_404(i))  
+        size = len(event_list)
+        eventName_list =[]
+        for i in range(size):
+            eventName_list.append(event_list[i].name)
+        size = len(eventName_list)     
 
-    return render_template('event.html', title=event.name, event=event, no_reg = no_reg,eventName_list =eventName_list, size=size)
+        return render_template('event.html', title=event.name, event=event, no_reg = no_reg,eventName_list =eventName_list, size=size)
+    else:
+        return render_template('event.html', title=event.name, event=event, no_reg = no_reg)
+
 
 @app.route("/approve_event/<int:event_id>")
 def event_approve(event_id):
@@ -185,7 +172,7 @@ def approving_event(event_id):
     event.is_verified = True
     db.session.commit()
     flash('The event has been Approved!', 'success')
-    return redirect(url_for('home'))
+    return redirect(url_for('approve_admin'))
 
 
 @app.route("/event/<int:event_id>/update", methods=['GET', 'POST'])
