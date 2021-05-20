@@ -42,7 +42,7 @@ class UpdateAccountForm(FlaskForm):
     email = StringField('Email',
                         validators=[DataRequired(), Email()])
     picture = FileField('Update Profile Picture', validators=[
-                        FileAllowed(['jpg', 'png','jpeg'])])
+                        FileAllowed(['jpg', 'png','jpeg','jfif'])])
     submit = SubmitField('Update')
 
     def validate_username(self, username):
@@ -67,7 +67,7 @@ class EventForm(FlaskForm):
     date = DateField('Date', validators=[DataRequired()])
     time = TimeField('Time',validators=[DataRequired()])
     max = IntegerField('Maximum Participants',validators=[DataRequired()])
-    banner =FileField('Update Banner', validators=[FileAllowed(['jpg', 'png','jpeg']),InputRequired()])
+    banner =FileField('Update Banner', validators=[FileAllowed(['jpg', 'png','jpeg','jfif']),InputRequired()])
     submit = SubmitField('Submit')
 
 
