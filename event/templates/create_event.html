@@ -1,0 +1,106 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="content-section mt-3">
+    <form method="POST" action="" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group ">
+            <legend class="border-bottom mb-4">{{ legend }}</legend>
+            <div class="form-group mb-3">
+                {{ form.name.label(class="form-control-label mb-3") }}
+                {% if form.name.errors %}
+                    {{ form.name(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback mb-3">
+                        {% for error in form.name.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.name(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group mb-3">
+                {{ form.description.label(class="form-control-label mb-3") }}
+                {% if form.description.errors %}
+                    {{ form.description(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback mb-3">
+                        {% for error in form.description.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.description(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group mb-3">
+                {{ form.venue.label(class="form-control-label mb-3") }}
+                {% if form.venue.errors %}
+                {{ form.venue(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback mb-3">
+                    {% for error in form.venue.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.venue(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+
+            <div class="form-group mb-3">
+                {{ form.date.label(class="form-control-label mb-3") }}
+                {% if form.date.errors %}
+                {{ form.date(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback mb-3">
+                    {% for error in form.date.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.date(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+
+            <div class="form-group mb-3">
+                {{ form.time.label(class="form-control-label mb-3") }}
+                {% if form.time.errors %}
+                {{ form.time(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback mb-3">
+                    {% for error in form.time.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.time(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+
+            <div class="form-group mb-3">
+                {{ form.max.label(class="form-control-label mb-3") }}
+                {% if form.max.errors %}
+                {{ form.max(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback mb-3">
+                    {% for error in form.max.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.max(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+
+            <div class="form-group mb-3">
+                {{ form.banner.label() }}
+                {{ form.banner(class="form-control-file") }}
+                {% if form.banner.errors %}
+                {% for error in form.banner.errors %}
+                <span class="text-danger">{{ error }}</span></br>
+                {% endfor %}
+                {% endif %}
+            </div>
+           
+        </fieldset>
+        <div class="form-group mb-3">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+    </form>
+</div>
+{% endblock content %}

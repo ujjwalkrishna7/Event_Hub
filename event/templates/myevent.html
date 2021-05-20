@@ -1,0 +1,8 @@
+{% extends "layout.html" %}
+{% block content %}
+  <h1>Your Events</h1>
+{% for i in range(size) %}
+   <p><strong><em>{{ event_list[i].name }}</em></strong> on {{ event_list[i].time.strftime("%b %d")}} at {{ event_list[i].time }}</p>
+{% endfor %}
+
+{% endblock content %}
