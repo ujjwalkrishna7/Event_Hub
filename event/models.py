@@ -44,7 +44,19 @@ class Event(db.Model):
     banner = db.Column(db.String(20),nullable=True,default='default.png')
     user_id = db.Column(db.Integer,db.ForeignKey('user.id'),nullable = False)
     max = db.Column(db.Integer,nullable =True)
-    
+
+
+class Registered(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    eventId = db.Column(db.Integer, nullable=False)
+    userId = db.Column(db.Integer, nullable=False,unique=True)
+    userMail = db.Column(db.String(100), nullable=False)
+
+    def __repr__(self):
+        return f"User('{self.eventId},'{self.userId}','{self.userMail}')"
+        
+
+
 
 def __repr__(self):
     return f"Event('{self.name}', '{self.posted}')"

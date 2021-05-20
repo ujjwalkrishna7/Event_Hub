@@ -5,7 +5,7 @@ from PIL import Image
 from flask import render_template, url_for, flash, redirect,request, abort
 from event import app, db, bcrypt,mail # type: ignore
 from event.forms import RegistrationForm, LoginForm, UpdateAccountForm, EventForm,RequestResetForm,ResetPasswordForm # type: ignore
-from event.models import User, Event # type: ignore
+from event.models import User, Event, Registered # type: ignore
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
 
@@ -79,6 +79,21 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
+@app.route("/myevents")
+def myevents():
+    registered_event = Registered.query.filter_by(userId = current_user.id).all()
+    x = len(registered_event)
+    new_list = []
+    for i in range(x):
+        new_list.append(registered_event[i].eventId)
+    event_list = []
+    for i in new_list:
+        event_list.append(Event.query.get_or_404(i))
+    size = len(event_list)
+    
+    return render_template('myevent.html',event_list =event_list,size = size)
+
+
 
 def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
@@ -149,7 +164,9 @@ def new_event():
 @app.route("/event/<int:event_id>")
 def event(event_id):
     event = Event.query.get_or_404(event_id)
-    return render_template('event.html', title=event.name, event=event)
+    no_reg = len(Registered.query.filter_by(eventId = event.id).all())
+    return render_template('event.html', title=event.name, event=event, no_reg = no_reg)
+
 
 
 @app.route("/event/<int:event_id>/update", methods=['GET', 'POST'])
@@ -181,6 +198,19 @@ def delete_event(event_id):
     db.session.delete(event)
     db.session.commit()
     flash('Your Event has been deleted!', 'success')
+    return redirect(url_for('home'))
+
+
+
+@app.route("/event/<int:event_id>/register", methods=['POST'])
+@login_required
+def register_event(event_id):
+    event = Event.query.get_or_404(event_id)
+    #registered_user = Registered.query.filter_by(userMail = current_user.email)
+    registered = Registered(eventId=event.id,userMail = current_user.email,userId = current_user.id)
+    db.session.add(registered)
+    db.session.commit()
+    flash('You have been registered for the event','success')
     return redirect(url_for('home'))
 
 
