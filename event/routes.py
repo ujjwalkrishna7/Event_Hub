@@ -235,6 +235,7 @@ def user_events(username):
     return render_template('user_events.html', events=events, user=user)    
 
 
+
 def send_reset_email(user):
     token = user.get_reset_token()
     msg = Message('Password Reset Request',
@@ -306,6 +307,8 @@ def reg_event():
     size = len(event_list)
     
     return render_template('registered_event.html',event_list =event_list,size = size)    
+
+
 
 
 @app.route("/confirm_event", methods=['GET', 'POST'])
