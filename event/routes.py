@@ -322,7 +322,7 @@ def reg_event():
 
 
 
-@app.route("/confirm_event", methods=['GET', 'POST'])
+@app.route("/event/<int:event_id>/confirm_event", methods=['GET', 'POST'])
 @login_required
 def confirm(event_id):   
     
