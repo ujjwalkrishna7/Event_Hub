@@ -4,7 +4,7 @@ from PIL import Image
 
 from flask import render_template, url_for, flash, redirect,request, abort
 from event import app, db, bcrypt,mail # type: ignore
-from event.forms import RegistrationForm, LoginForm, UpdateAccountForm, EventForm,RequestResetForm,ResetPasswordForm # type: ignore
+from event.forms import RegistrationForm, LoginForm, UpdateAccountForm, EventForm,RequestResetForm,ResetPasswordForm,ConfirmForm # type: ignore
 from event.models import User, Event, Registered # type: ignore
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
@@ -23,11 +23,16 @@ def about():
     return render_template('about.html', title='About')
 
 @app.route("/approve")
+@login_required
 def approve_admin():
     #page = request.args.get('page', 1, type=int)
-    #events = Event.query.order_by(Event.posted.desc()).paginate(page=page, per_page=8)       
-    events = Event.query.filter(Event.is_verified.is_(False)).all() 
-    return render_template('approve_admin.html', title='Approve',event_value=events)
+    #events = Event.query.order_by(Event.posted.desc()).paginate(page=page, per_page=8)    
+    if current_user.is_admin:   
+        events = Event.query.filter(Event.is_verified.is_(False)).all() 
+        return render_template('approve_admin.html', title='Approve',event_value=events)
+    else:
+        abort(403)
+
 
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -161,18 +166,25 @@ def event(event_id):
 
 
 @app.route("/approve_event/<int:event_id>")
+@login_required
 def event_approve(event_id):
-    event = Event.query.get_or_404(event_id)
-    return render_template('approve_event.html', title=event.name, event=event)    
+    if current_user.is_admin: 
+        event = Event.query.get_or_404(event_id)
+        return render_template('approve_event.html', title=event.name, event=event)   
+    else:
+        abort(403) 
 
 @app.route("/approve_event/<int:event_id>/approve", methods=['POST'])
 @login_required
 def approving_event(event_id):
-    event = Event.query.get_or_404(event_id)
-    event.is_verified = True
-    db.session.commit()
-    flash('The event has been Approved!', 'success')
-    return redirect(url_for('approve_admin'))
+    if current_user.is_admin: 
+        event = Event.query.get_or_404(event_id)
+        event.is_verified = True
+        db.session.commit()
+        flash('The event has been Approved!', 'success')
+        return redirect(url_for('approve_admin'))
+    else:
+        abort(403) 
 
 
 @app.route("/event/<int:event_id>/update", methods=['GET', 'POST'])
@@ -279,6 +291,7 @@ def register_event(event_id):
     return redirect(url_for('home'))
 
 @app.route("/myevents")
+@login_required
 def myevents():
     registered_event = Registered.query.filter_by(userId = current_user.id).all()
     x = len(registered_event)
@@ -291,3 +304,41 @@ def myevents():
     size = len(event_list)
     
     return render_template('myevent.html',event_list =event_list,size = size)    
+
+
+@app.route("/confirm_event", methods=['GET', 'POST'])
+def confirm():
+    form = ConfirmForm()
+    if form.validate_on_submit():
+        reg = Registered.query.filter_by(eventId=form.eventId.data).all()
+        send_event_email(reg)
+        flash('An email has been sent with instructions.', 'info')
+        return redirect(url_for('home'))
+    return render_template('confirm_event.html', title='Confirm Event', form=form)
+
+
+def send_event_email(user):
+    x = len(user)
+    for i in range(x):
+        token = user[i].get_reset_token()
+        msg = Message('Are u coming for the Registered Event',
+                    sender='demo.noreply.com',
+                    recipients=[user[i].userMail])
+        msg.body = f'''If you are coming for the event, please confirm here:
+{url_for('confirm_event', token=token, _external=True)}
+
+'''
+        mail.send(msg)
+
+
+@app.route("/confirm_event/<token>", methods=['GET', 'POST'])
+def confirm_event(token):
+    user = Registered.verify_reset_token(token)
+    if user is None:
+        flash('That is an invalid or expired token', 'warning')
+        return redirect(url_for('home')) 
+    else:
+        user.is_coming = True
+        db.session.commit()
+        flash('Your attendence for the event is recorded', 'success')
+        return redirect(url_for('home'))    

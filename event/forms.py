@@ -88,3 +88,7 @@ class ResetPasswordForm(FlaskForm):
     confirm_password = PasswordField('Confirm Password',
                                      validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Reset Password')
+
+class ConfirmForm(FlaskForm):
+    eventId = IntegerField('Id', validators=[DataRequired()])
+    submit = SubmitField('Submit Id')

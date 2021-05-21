@@ -25,6 +25,11 @@
                         <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('update_event', event_id=event.id) }}">Update</a>
                         <button type="button" class="btn btn-danger btn-sm m-1" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button>
                       </div>
+
+                      <div>
+                        <p>Notify Participants to confirm Attendence Here:</p>
+                        <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('confirm', event_id=event.id) }}">Notify</a>
+                      </div>
                     {% endif %}
                    
 
