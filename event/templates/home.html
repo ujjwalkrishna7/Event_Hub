@@ -2,6 +2,35 @@
 {% block content %}
 
     <!-- Cards, looped using for -->
+    
+     
+    <!--<style>
+      .expandMoreContent {
+        height: 80px;
+        overflow: hidden;
+        transition: height 0.5s ease-in-out;
+        position: relative;
+      }
+
+      .expandMoreContent.expand-active {
+        height:auto;
+        transition: height 0.5s ease-in-out;
+      }
+
+      .expandMoreHolder{
+        padding: 15px 0;
+        text-align:center;
+      }
+
+      .btn-expand-more{
+        cursor: pointer;
+        border: 1px solid rgba(0,0,0,0.2)
+        display: inline-block;
+
+      }
+
+      
+    </style>-->
     <section>
         <div class="container mt-5">
         <div class="row">
@@ -11,12 +40,20 @@
             <div class="col-md-3 mb-5">
                 <div class="card" style="width: 18rem;">
                     <img src="{{url_for('static', filename='banner_pics/' + event.banner)}}" class="card-img-top" alt="">
-                    <div class="card-body">
-                      <h5 class="card-title">{{ event.name }} <small class="text-muted"> {{ event.posted.strftime('%m-%d') }} </small></h5>
-                      <p class="card-text mb-2">{{ event.description }}</p>
-                      <div class="mb-2"><a class="text-decoration-none " href="{{ url_for('user_events', username=event.author.username) }}">{{ event.author.username }}</a></div>
+                    <div class="card-body" id={{event.name}}>
+                      <div class="expandMoreContent">
+                        <h5 class="card-title">{{ event.name }} <small class="text-muted"> </small></h5>
+                        <p class="card-text mb-2" >{{ event.description }}</p>
+                      </div>
+                      <!--<div class="expandMoreHolder">
+                        <span expand-more data-hidetext="Show Less..." data-showtext="Show More..." data-target={{event.name}}
+                        class="btn-expand-more">...Show More</span>
+                      </div>-->
+                      <div>
+                        <div class="mb-2"><a class="text-decoration-none " href="{{ url_for('user_events', username=event.author.username) }}">{{ event.author.username }}</a></div>
                       
-                      <a href="{{ url_for('event', event_id=event.id) }}" class="btn btn-primary">Event Details</a>
+                        <a href="{{ url_for('event', event_id=event.id) }}" class="btn btn-primary">Event Details</a>
+                      </div>
                       
                     </div>
                   </div>
@@ -28,6 +65,9 @@
 
         </div>
         </div>
+        
+        
+        
 
 
 

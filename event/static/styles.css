@@ -7,6 +7,29 @@
 /*user*/
 
 
+.text-box{
+  width:90%;
+  color:#fff ;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  text-align: center;
+}
+
+.text-box h1{
+  font: size 62px;
+  color:#fff;
+
+}
+
+.text-box h3{
+  margin: 10px 0 40px;
+  font-size:40px;
+  color:#fff;
+
+}
+
 body {
     
     color: #333333;
@@ -120,9 +143,84 @@ h2{
   font-size: 2rem;
 }
 
+*{
+  margin: 0;
+  padding: 0;
+}
+.header{
+  min-height:60vh;
+  width:100%;
+  background-image: linear-gradient(rgba(4, 9, 30, 0.7),rgba(4,9,30,0.7)),url("carousal/img_7.jpg");
+  background-position: center;
+  background-size: cover;
+  position: relative;
+}
+
+/*------info-----*/
+.info{
+  width:80%;
+  margin:auto;
+  text-align:center;
+  padding-top:100px;
+}
+.info h1{
+  font-size: 36px;
+  font-weight:600;
+}
+p{
+  color:#777;
+  font-size: 14px;
+  font-weight:600;
+  line-height: 22px;
+  padding:10px;
+}
+
+.info row{
+  margin-top:5%;
+  display: flex;
+  justify-content: space-between;
+  
+}
+.info-col{
+  background:rgb(150, 216, 236);
+  border-radius: 10px;
+  margin-bottom: 5%;
+  padding: 40px 12px;
+  box-sizing: border-box;
+  margin-left: 50px;
+}
+
+.info h3{
+  text-align: center;
+  font-weight: 750;
+  margin: 10px 0;
+
+}
+.info-col:hover{
+  box-shadow: 0 0 20px 0px rgba(0,0,0,0.2);
+}
+@media(max-width:700px){
+  .row{
+    flex-direction: column;
+  }
+}
 
 
-
+/*--------- Glimpses------*/
+.glimpse{
+  width:80%;
+  margin:auto;
+  text-align:center;
+  padding-top:100px;
+}
+.glimpse h1{
+  font-size: 36px;
+  font-weight:600;
+}
+.carousel-item{
+  height:32rem;
+  background:#777;
+}
 
 
 
