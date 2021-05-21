@@ -291,9 +291,10 @@ def register_event(event_id):
     flash('You have been registered for the event','success')
     return redirect(url_for('home'))
 
-@app.route("/myevents")
+
+@app.route("/reg_events")
 @login_required
-def myevents():
+def reg_event():
     registered_event = Registered.query.filter_by(userId = current_user.id).all()
     x = len(registered_event)
     new_list = []
@@ -304,7 +305,7 @@ def myevents():
         event_list.append(Event.query.get_or_404(i))
     size = len(event_list)
     
-    return render_template('myevent.html',event_list =event_list,size = size)    
+    return render_template('registered_event.html',event_list =event_list,size = size)    
 
 
 @app.route("/confirm_event", methods=['GET', 'POST'])
