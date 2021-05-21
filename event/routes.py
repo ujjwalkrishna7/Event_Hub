@@ -145,6 +145,7 @@ def new_event():
 def event(event_id):
     event = Event.query.get_or_404(event_id)
     no_reg = len(Registered.query.filter_by(eventId = event.id).all())
+    no_reg_confirmed = len(Registered.query.filter_by(eventId = event.id, is_coming = True).all())
     if current_user.is_authenticated:
         register_status = Registered.query.filter_by(userId = current_user.id).all()
         x = len(register_status)
@@ -160,7 +161,7 @@ def event(event_id):
             eventName_list.append(event_list[i].name)
         size = len(eventName_list)     
 
-        return render_template('event.html', title=event.name, event=event, no_reg = no_reg,eventName_list =eventName_list, size=size)
+        return render_template('event.html', title=event.name, event=event, no_reg = no_reg,eventName_list =eventName_list, size=size, no_reg_confirmed=no_reg_confirmed)
     else:
         return render_template('event.html', title=event.name, event=event, no_reg = no_reg)
 
@@ -307,14 +308,14 @@ def myevents():
 
 
 @app.route("/confirm_event", methods=['GET', 'POST'])
-def confirm():
-    form = ConfirmForm()
-    if form.validate_on_submit():
-        reg = Registered.query.filter_by(eventId=form.eventId.data).all()
-        send_event_email(reg)
-        flash('An email has been sent with instructions.', 'info')
-        return redirect(url_for('home'))
-    return render_template('confirm_event.html', title='Confirm Event', form=form)
+@login_required
+def confirm(event_id):   
+    
+    reg = Registered.query.filter_by(eventId=event_id).all()
+    send_event_email(reg)
+    flash('An email has been sent with instructions.', 'info')
+    return redirect(url_for('home'))
+    
 
 
 def send_event_email(user):
