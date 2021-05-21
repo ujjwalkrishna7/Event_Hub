@@ -235,6 +235,17 @@ def user_events(username):
     return render_template('user_events.html', events=events, user=user)    
 
 
+@app.route("/users/")
+def user_event():
+    page = request.args.get('page', 1, type=int)
+    username = current_user.username
+    user = User.query.filter_by(username=username).first_or_404()
+    events = Event.query.filter_by(author=user)\
+        .order_by(Event.posted.desc())\
+        .paginate(page=page, per_page=8)
+    return render_template('my_events.html', events=events, user=user)
+
+
 
 def send_reset_email(user):
     token = user.get_reset_token()

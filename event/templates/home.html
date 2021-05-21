@@ -12,7 +12,7 @@
                 <div class="card" style="width: 18rem;">
                     <img src="{{url_for('static', filename='banner_pics/' + event.banner)}}" class="card-img-top" alt="">
                     <div class="card-body">
-                      <h5 class="card-title">{{ event.name }} <small class="text-muted"> {{ event.posted.strftime('%m-%d') }} </small></h5>
+                      <h5 class="card-title">{{ event.name }} ,<small class="text-muted"> {{ event.posted.strftime("%b %d") }} </small></h5>
                       <p class="card-text mb-2">{{ event.description }}</p>
                       <div class="mb-2"><a class="text-decoration-none " href="{{ url_for('user_events', username=event.author.username) }}">{{ event.author.username }}</a></div>
                       
