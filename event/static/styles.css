@@ -152,7 +152,7 @@ h2{
   width:100%;
   background-image: linear-gradient(rgba(4, 9, 30, 0.7),rgba(4,9,30,0.7)),url("carousal/img_7.jpg");
   background-position: center;
-  background-size: cover;
+  background-size: 100% 100%;
   position: relative;
 }
 
@@ -217,11 +217,18 @@ p{
   font-size: 36px;
   font-weight:600;
 }
-.carousel-item{
-  height:32rem;
-  background:#777;
-}
+.slider{
+  overflow:hidden;
 
+  
+}
+.slider figure{
+  position:relative;
+  ;
+}
+.slider img{
+  max-height:50vh;
+}
 
 
 
