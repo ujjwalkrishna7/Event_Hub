@@ -1,6 +1,13 @@
 {% extends "layout.html" %}
 {% block content %}
   <h1>Your Events</h1>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
 {% for i in range(size) %}
    <p><strong><em>{{ event_list[i].name }}</em></strong> on {{ event_list[i].date.strftime("%b %d")}} at {{ event_list[i].time }} pm, <em>Venue:</em> <strong>{{ event_list[i].venue }}</strong></p>
 {% endfor %}

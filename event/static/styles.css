@@ -1,131 +1,339 @@
-/*bootstrap*/
-
-
-
-
-
-/*user*/
-
+/*personal*/
 
 body {
     
-    color: #333333;
-    
-    
-  }
+  color: #393232;
+  background-color: #ffffff;
+  font-family: 'Montserrat', sans-serif;
+  
+  
+}
 
-  
-  h1, h2, h3, h4, h5, h6 {
-    color: #444444;
-  }
-  
-  
+h1, h2, h3, h4, h5, h6 {
+  color: #393232;
+}
 
-  
-  .site-header .navbar-nav .nav-link:hover {
-    color: #cbd5db;
-  }
-  
-  .site-header .navbar-nav .nav-link.active {
-    font-weight: 500;
-  }
-  
-  .content-section {
-    background: #ffffff;
-    padding: 10px 20px;
-    border: 1px solid #dddddd;
-    border-radius: 3px;
-    margin-bottom: 20px;
-  }
-  
-  .article-title {
-    color: #444444;
-  }
-  
-  a.article-title:hover {
-    color: #428bca;
-    text-decoration: none;
-  }
-  
-  .article-content {
-    white-space: pre-line;
-  }
-  
-  .article-img {
-    height: 65px;
-    width: 65px;
-    margin-right: 16px;
-  }
-  
-  .article-metadata {
-    padding-bottom: 1px;
-    margin-bottom: 4px;
-    border-bottom: 1px solid #e3e3e3
-  }
-  
-  .article-metadata a:hover {
-    color: #333;
-    text-decoration: none;
-  }
-  
-  .article-svg {
-    width: 25px;
-    height: 25px;
-    vertical-align: middle;
-  }
-  
-  .account-img {
-    height: 125px;
-    width: 125px;
-    margin-right: 20px;
-    margin-bottom: 16px;
-  }
-  
-  .account-heading {
-    font-size: 2.5rem;
-  }
+.content-section {
+  background: #ffffff;
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
+}
 
+.account-img {
+  height: 125px;
+  width: 125px;
+  margin-right: 20px;
+  margin-bottom: 16px;
+}
 
-
-/*personal*/
+.account-heading {
+  font-size: 2.5rem;
+}
 
 .card-img-top {
-    width: 100%;
-    height: 15vw;
-    object-fit: cover;
-}
-
-body{
-  font-family: 'Montserrat', sans-serif;
-}
-
-h1{
-  font-family: 'Montserrat', sans-serif;
-  font-weight:900;
-  font-size:3.5rem;
-  line-height: 1.5;
+  width: 100%;
+  height: 15vw;
+  object-fit: cover;
   
 }
-h2{
-  font-family: 'Montserrat', sans-serif;
-  font-weight: bold ;
-  font-size: 3rem;
-  line-height: 1.5;
+
+
+h1{
+font-weight:800;
+font-size:3rem;
+line-height: 1.5;
+
 }
 
+h2{
+font-weight: 600 ;
+font-size: 2rem;
+line-height: 1.5;
+}
+
+h3{
+  
+  font-weight: 400 ;
+  font-size: 1.5rem;
+  line-height: 1.5;
+  }
 
 .navbar-brand{
-  font-family: 'Ubuntu', sans-serif;
-  font-weight:bold;
-  font-size: 2rem;
+font-family: 'Ubuntu', sans-serif;
+font-weight:bold;
+font-size: 2rem;
 }
 
 
 
 
+/* Card Expermimental */
+/* .card{
+cursor: pointer;
+box-shadow: 0 0 0 1px #d0d8df, 0 1px 3px rgba(0,0,0,0.15);
+transition: all 0.3s;
+height: 450px;
+transition: all 0.25s ease;
+
+}
+.card:hover {
+transform: translateY(-4px);
+
+box-shadow: 0 0 0 2px #43c0fe, 0 22px 43px rgba(0,0,0,0.15);
+}
+
+
+.card-body {
+
+
+border-top: 1px solid #ddd;
+border-radius: 0 0 5px 5px;
+
+} 
+
+.btn{
+cursor: pointer;
+display: inline;
+text-decoration: none;
+border-radius: 1rem;
+} */
 
 
 
 
+/* Card */
 
+:root{
+--surface-color: #fff;
+--curve: 40;
+--bg-pink: #fef8f8;
+--black-color:#272343;
+--text-color:#393232;
+
+}
+
+.card{
+position: relative;
+display: block;
+height: 100%;
+border-radius: calc(var(--curve)* 1px);
+overflow: hidden;
+text-decoration: none;
+cursor: pointer;
+box-shadow: 0 0 0 1px #d0d8df, 0 1px 3px rgba(0,0,0,0.15);
+transition: all 0.3s;
+transition: all 0.25s ease;
+
+}
+
+.card:hover {
+transform: translateY(-6px);
+
+box-shadow: 0 0 0 2px #10ddc2, 0 22px 43px rgba(0,0,0,0.15);
+}
+.card__image{
+width: 100%;
+
+height: 400px;
+object-fit: cover;
+
+}
+
+.card__overlay{
+position: absolute;
+bottom: 0;
+left: 0;
+right: 0;
+z-index: 1;
+border-radius: calc(var(--curve)* 0.5px);
+background: var(--surface-color);
+transform: translateY(110%);
+transition: 0.2s ease-in-out;
+}
+
+.card:hover .card__overlay{
+transform: translateY(0);
+
+
+}
+.card__header{
+position: relative;
+display: flex;
+align-items: center;
+gap:2rem;
+border-radius: calc(var(--curve)* 1px) 0 0 0;
+background-color: var(--surface-color);
+padding: 1.5em 2em 1.5em 2em;
+transform: translateY(-110%);
+transition: 0.2s ease-in-out;
+}
+
+.card:hover .card__header{
+transform: translateY(0);
+}
+
+.card__thumb{
+flex-shrink: 0;
+width: 3.125em;
+height: 3.125em;
+border-radius: 50%;
+}
+.card__title{
+font-size: 1em;
+margin: 0 0 0.3em;
+color: var(--black-color);
+
+}
+.card__status{
+font-size:0.8em;
+color: var(--text-color);
+
+}
+.card__description{
+padding: 0 2em 2em;
+margin: 0;
+color: var(--text-color);
+display: -webkit-box;
+-webkit-box-orient: vertical;
+-webkit-line-clamp: 3;
+overflow: hidden;
+
+}
+
+
+/* Navbar */
+
+.container-fluid{
+  padding:1% 10%;
+}
+body{
+  padding-top: 120px;
+  
+}
+
+.btn{
+  border-radius: 20px;
+  background-color: #15b7b9;
+  color: #fff;
+  border: none;
+
+}
+.btn:hover{
+  background-color: #10ddc2;
+  color: #fff;
+
+}
+
+
+.grow {
+  display: inline-block;
+  transition-duration: 0.3s;
+  transition-property: transform;
+  -webkit-tap-highlight-color: transparent;
+  transform: translateZ(0);
+  box-shadow: 0 0 1px transparent;
+}
+.grow:hover {
+  transform: scale(1.03);
+}
+nav{
+  
+  transition: all 0.2s ease;
+  }
+
+nav.sticky{
+  padding: 0%;
+  
+  transition: all 0.2s ease;
+ 
+  box-shadow: 0 3px 20px rgba(0,0,0,0.1);
+
+}
+
+
+.usercircle{
+  margin-top: 4px;
+  color: #15b7b9;
+
+}
+.usercircle:hover{
+  color: #10ddc2;
+
+}
+
+.bg-light{
+  background-color: #fff !important;
+
+}
+
+/* Dropdown */
+.dropdown-menu{ 
+  --border: 2px solid #15b7b9;
+  position: absolute;
+  top: 58px;
+  width:300px;
+  border: var(--border);
+  border-radius: 10px;
+  padding:1rem;
+  overflow: hidden;
+  
+}
+
+.dropdown-item{
+  display: flex;
+  align-items: centre;
+  border-radius: 10px;
+  padding: 0.8rem;
+  
+}
+
+.dropdown-item:hover{
+  background-color: #afeaeb;
+}
+
+.dropdown-item:active{
+  background-color: #afeaeb;
+  color:#393232;
+}
+
+/* footer */
+#footer{
+  padding:7% 15%;
+  background-color: #4d4545;
+  
+  color: #fff;
+}
+
+#footer_text{
+font-family: 'Ubuntu', sans-serif;
+font-weight:bold;
+font-size: 2rem;
+color: #fff;
+
+}
+
+#footer_text_b{
+  font-weight:300;
+  color: #fff;
+  text-decoration: none;
+  
+  
+  }
+#footer_text_b:hover{
+  font-weight:300;
+  color: rgb(223, 206, 206);
+  text-decoration: none;
+  
+  
+  }
+#footer_text_c{
+  font-weight:600;
+  color: #fff;
+  font-size: 1rem;
+  text-decoration: none;
+  
+  
+  }
 

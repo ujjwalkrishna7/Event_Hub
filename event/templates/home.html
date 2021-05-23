@@ -3,12 +3,13 @@
 
     <!-- Cards, looped using for -->
     <section>
+      <h3 class="text-center">Discover New Events Nearby.</h3>
         <div class="container mt-5">
         <div class="row">
           
           {% for event in event_value.items %}
             {% if event.is_verified == True %}
-            <div class="col-md-3 mb-5">
+            <!-- <div class="col-md-3 mb-5">
                 <div class="card" style="width: 18rem;">
                     <img src="{{url_for('static', filename='banner_pics/' + event.banner)}}" class="card-img-top" alt="">
                     <div class="card-body">
@@ -21,7 +22,26 @@
                     </div>
                   </div>
             </div>
-            
+             -->
+
+             <div class="col-md-3 mb-5">
+              <a href="{{ url_for('event', event_id=event.id) }}" class="card">
+                <img src="{{url_for('static', filename='banner_pics/' + event.banner)}}" class="card__image" alt="">
+                <div class="card__overlay">
+                  <div class="card__header">
+                    <!-- <svg class="card__arc" xmlns="http://www.w3.org/2000/svg">
+                    <path />
+                  </svg> -->
+                  <div class="card__header-text">
+                    <h2 class="card__title">{{ event.name }}</h2>
+                    <span class="card__status">{{ event.posted.strftime("%b %d") }}</span>
+                  </div>
+                  </div>
+                  <p class="card__description">{{ event.description | truncate(80) }}...</p>
+                </div>
+  
+              </a>
+            </div>             
             {% endif %}
           {% endfor %}
            
@@ -38,7 +58,7 @@
         {% if event_value.page == page_num %}
           <a class="btn btn-dark mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
         {% else %}
-          <a class="btn btn-outline-dark mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+          <a class="btn btn-dark mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
         {% endif %}
       {% else %}
         ...
