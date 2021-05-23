@@ -5,7 +5,7 @@ from PIL import Image
 from flask import render_template, url_for, flash, redirect,request, abort
 from event import app, db, bcrypt,mail # type: ignore
 from event.forms import RegistrationForm, LoginForm, UpdateAccountForm, EventForm,RequestResetForm,ResetPasswordForm,ConfirmForm # type: ignore
-from event.models import User, Event, Registered # type: ignore
+from event.models import User, Event, Registered,Temp # type: ignore
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
 
@@ -37,17 +37,21 @@ def approve_admin():
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
+    
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     form = RegistrationForm()
+
+
     if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(
-            form.password.data).decode('utf-8')
-        user = User(username=form.username.data,
-                    email=form.email.data, password=hashed_password)
-        db.session.add(user)
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        temp = Temp(username=form.username.data, email=form.email.data, password=hashed_password)
+        db.session.add(temp)
         db.session.commit()
-        flash('Your account has been created! You are now able to log in', 'success')
+        temp = Temp.query.filter_by(email=form.email.data).first()
+        send_verification_email(temp)
+        flash('Please click on the verification link sent to your email address.', 'info')
+
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
@@ -357,4 +361,35 @@ def confirm_event(token):
         user.is_coming = True
         db.session.commit()
         flash('Your attendence for the event is recorded', 'success')
-        return redirect(url_for('home'))    
+        return redirect(url_for('home'))   
+
+def send_verification_email(temp):
+    token = temp.get_verification_email()
+    msg = Message('Verify your email.',
+                  sender='noreply@demo.com',
+                  recipients=[temp.email])
+    msg.body = f'''To verify your email, visit the following link:
+{url_for('resett_token', token=token, _external=True)}
+
+If you did not initiate the verification,please ignore.
+'''
+    mail.send(msg)
+
+
+@app.route("/register/<token>", methods=['GET', 'POST'])
+def resett_token(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    temp = Temp.verify_email(token)
+    if temp is None:
+        flash('That is an invalid or expired token', 'warning')
+        return redirect(url_for('register'))
+
+    if temp:
+        user = User(username=temp.username, email=temp.email, password=temp.password)
+        db.session.add(user)
+        db.session.commit()
+        flash('Your account has been created! You are now able to log in', 'success')
+        return redirect(url_for('login'))
+
+    return render_template('register.html', title='Register', form=form)
