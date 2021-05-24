@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="content-section mt-5">
+<div class="content-section_account mt-5">
     <div class="media">
         <img class="rounded-circle account-img" src="{{ image_file }}">
         <div class="media-body">
@@ -40,7 +40,7 @@
                 {% endif %}
             </div>
             <div class="form-group mb-3">
-                {{ form.picture.label() }}
+                {{ form.picture.label() }}: <br>
                 {{ form.picture(class="form-control-file") }}
                 {% if form.picture.errors %}
                 {% for error in form.picture.errors %}

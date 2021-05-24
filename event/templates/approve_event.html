@@ -1,57 +1,102 @@
-{% extends "layout.html" %}
-{% block content %}
+{% extends "layout.html" %} {% block content %}
 
-    <!-- Cards, looped using for -->
-    <section>
-        <div class="container mt-5">
-        <div class="row">
-            
-            <div class="col-md-6">
-                <div class="card" style="width: 18rem;">
-                    <img src="{{url_for('static', filename='banner_pics/' + event.banner)}}" class="card-img-top" alt="">
-                    <div class="card-body">
-                      <h5 class="card-title">{{ event.name }} <small class="text-muted"> {{ event.posted.strftime('%m-%d') }} </small></h5>
-                      <p class="card-text">{{ event.description }}</p>
-                      
-                      <div>
-                        <form action="{{ url_for('approving_event', event_id=event.id) }}" method="POST">
-                        <input type="submit" class="btn btn-success btn-sm mt-1 mb-1" value="Approve">
-                        <button type="button" class="btn btn-danger btn-sm m-1" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button>
-                        </form>
-                        
-                      </div>
-                    
-                    </div>
-                  </div>
-            </div>
-            
-            
-           
+<!-- Cards, looped using for -->
+<section>
+  
+  <div class="container mt-5 event_card">
+    <div class="row">
+      <div class="col-md-4">
+        <img
+          src="{{url_for('static', filename='banner_pics/' + event.banner)}}"
+          class="event_card_img"
+          alt=""
+        />
+      </div>
+      <div class="col-md-8">
+        <div class="event-body">
+          <h5 class="event-title">
+            {{ event.name }}
+            <small class="text-muted">
+              {{ event.posted.strftime('%m-%d') }}
+            </small>
+          </h5>
 
-        </div>
-        </div>
-
-
-
-    </section>
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Do you want to delete the Event?</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <form action="{{ url_for('delete_event', event_id=event.id) }}" method="POST">
-                  <input type="submit" class="btn btn-danger" value="Delete">
-              </form>
-            </div>
-          </div>
+          <span class="badge_event">
+            Allowed No of Participants : {{ event.max }}
+          </span>
+          <span class="badge_event">
+            Total students enrolled : {{ no_reg }}
+          </span>
+          <p class="event-text">{{ event.description }}</p>
+          <p>
+            The event starts at
+            <strong
+              >{{ event.time.strftime( "%H:%M")}} on {{ event.date.strftime("%b
+              %d %Y") }}</strong
+            >
+          </p>
+          <p>
+            <span class="badge_event_2">
+              Venue: <strong> {{event.venue}} </strong></span
+            >
+          </p>
+          <form
+            action="{{ url_for('approving_event', event_id=event.id) }}"
+            method="POST"
+          >
+            <input
+              type="submit"
+              class="btn btn-success btn-sm mt-1 mb-1"
+              value="Approve"
+            />
+            <button
+              type="button"
+              class="btn btn-danger btn-sm m-1"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+            >
+              Delete
+            </button>
+          </form>
         </div>
       </div>
-    
+    </div>
+  </div>
+</section>
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Do you want to delete the Event?
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <form
+          action="{{ url_for('delete_event', event_id=event.id) }}"
+          method="POST"
+        >
+          <input type="submit" class="btn btn-danger" value="Delete" />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock content %}
-
-

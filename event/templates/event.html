@@ -1,127 +1,185 @@
-{% extends "layout.html" %}
-{% block content %}
+{% extends "layout.html" %} {% block content %}
 
-    <!-- Cards, looped using for -->
-    <section>
-        <div class="container mt-5">
-        <div class="row">
-            
-            <div class="col-md-6">
-                <div class="card" style="width: 72rem;">
-                    <img src="{{url_for('static', filename='banner_pics/' + event.banner)}}" class="card-img-top" alt="">
-                    <div class="card-body">
-                      <h5 class="card-title">{{ event.name }} <small class="text-muted"> {{ event.posted.strftime('%m-%d') }} </small></h5>
-                      <p class="card-text">{{ event.description }}</p>
-                      <p><em>The event starts at {{ event.time.strftime( "%H:%M")}} on {{ event.date.strftime("%b %d %Y") }}</em>
-                      </p>
-                      <p>Venue: <em><strong>{{event.venue }}</strong></em></p>
-                      </p>Allowed no.of Participants : <em>{{ event.max }}</em>
-                      <p>Total students enrolled : {{ no_reg }}</p>
+<!-- Cards, looped using for -->
+<section>
+  <div class="container mt-5 event_card">
+    <div class="row">
+      <div class="col-md-4">
+        <img
+          src="{{url_for('static', filename='banner_pics/' + event.banner)}}"
+          class="event_card_img"
+          alt=""
+        />
+      </div>
+      <div class="col-md-8">
+        <div class="event-body">
+          <h5 class="event-title">
+            {{ event.name }}
+            <small class="text-muted">
+              {{ event.posted.strftime('%m-%d') }}
+            </small>
+          </h5>
 
-                      {% if current_user.is_authenticated %}
+          <span class="badge_event">
+            Allowed No of Participants : {{ event.max }}
+          </span>
+          <br class="mobile-break">
+          <br class="mobile-break">
+          <span class="badge_event">
+            Total students enrolled : {{ no_reg }}
+          </span>
+          <p class="event-text">{{ event.description }}</p>
+          <p>
+            The event starts at
+            <strong
+              >{{ event.time.strftime( "%H:%M")}} on {{ event.date.strftime("%b
+              %d %Y") }}</strong
+            >
+          </p>
+          <p>
+            <span class="badge_event_2">
+              Venue: <strong> {{event.venue}} </strong></span
+            >
+          </p>
 
-                      {% if event.author == current_user %}
+          {% if current_user.is_authenticated %} {% if event.author ==
+          current_user %}
 
-                      <div>
-                        <p>Notify participants to confirm attendence here: <a class="btn btn-secondary btn-sm inline" href="{{ url_for('confirm', event_id=event.id) }}">Notify</a></p>
-                        
-                        <p>No of Participants who confirmed their attendance:<strong> {{ no_reg_confirmed }}</strong></p>
-                      </div>
+          <div>
+            <p>
+              Email to notify the participants to confirm attendence here:
+              <a
+                class="btn btn-secondary btn-sm inline"
+                href="{{ url_for('confirm', event_id=event.id) }}"
+                >Notify</a
+              >
+            </p>
 
-                      <div>
-                        <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('update_event', event_id=event.id) }}">Update</a>
-                        <button type="button" class="btn btn-danger btn-sm m-1" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button>
-                      </div>
-                    {% endif %}
-                   
+            <p>
+              No of Participants who confirmed their attendance:<strong>
+                {{ no_reg_confirmed }}</strong
+              >
+            </p>
+          </div>
 
-            {% if event.name in eventName_list %}
+          <div>
+            <a
+              class="btn btn-secondary btn-sm mt-1 mb-1"
+              href="{{ url_for('update_event', event_id=event.id) }}"
+              >Update</a
+            >
+            <button
+              type="button"
+              class="btn btn-danger btn-sm m-1"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+            >
+              Delete
+            </button>
+          </div>
+          {% endif %} {% if event.name in eventName_list %}
+          <div>
+            <p>You are already registered.</p>
+          </div>
+
+          {% elif event.author != current_user %} {% if no_reg < event.max %}
+          <form method="POST" action="register_event">
             <div>
-              <p>You are already registered.
-                
-
+              <p>
+                To participate click here
+                <button
+                  type="button"
+                  class="btn btn-success btn-sm m-1"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exmpleModal"
+                >
+                  Register
+                </button>
               </p>
             </div>
-      
-
-            {% elif event.author != current_user %}
-
-            {% if no_reg < event.max %}
-            <form method="POST" action="register_event">
-              <div>
-                <p>To participate click here
-                  <button type="button" class="btn btn-success btn-sm m-1" data-bs-toggle="modal"
-                    data-bs-target="#exmpleModal">Register</button>
-
-                </p>
-              </div>
-
-            </form>
-              {% endif%}
-            {% endif %}
-
-
-            {% if no_reg >= event.max %}
-            <div>
-              <p>Registration Completed</p>
-            </div>
-            {% endif %}
-
-
-            
-            {% endif %}
-                    </div>
-                  </div>
-            </div>
-            
-            
-           
-
-        </div>
-        </div>
-
-
-
-    </section>
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Do you want to delete the Event?</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <form action="{{ url_for('delete_event', event_id=event.id) }}" method="POST">
-                  <input type="submit" class="btn btn-danger" value="Delete">
-              </form>
-            </div>
+          </form>
+          {% endif%} {% endif %} {% if no_reg >= event.max %}
+          <div>
+            <p>Registration Completed</p>
           </div>
+          {% endif %} {% endif %}
         </div>
       </div>
+    </div>
+  </div>
+</section>
 
-
-      <div class="modal fade" id="exmpleModal" tabindex="-1" aria-labelledby="exmpleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exmpleModalLabel">Do you want to register for the event </h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-      
-            <div class="modal-footer">
-              <form action="{{ url_for('register_event',event_id = event.id) }}" method="POST">
-                <input type="submit" class="btn btn-success" value="Yes">
-              </form>
-            
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-      
-            </div>
-          </div>
-        </div>
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Do you want to delete the Event?
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
-    
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <form
+          action="{{ url_for('delete_event', event_id=event.id) }}"
+          method="POST"
+        >
+          <input type="submit" class="btn btn-danger" value="Delete" />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="exmpleModal"
+  tabindex="-1"
+  aria-labelledby="exmpleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exmpleModalLabel">
+          Do you want to register for the event
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <div class="modal-footer">
+        <form
+          action="{{ url_for('register_event',event_id = event.id) }}"
+          method="POST"
+        >
+          <input type="submit" class="btn btn-success" value="Yes" />
+        </form>
+
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          No
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock content %}
-
-

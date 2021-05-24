@@ -1,52 +1,58 @@
-{% extends "layout.html" %}
-{% block content %}
-<h1 class="mb-3">Events Posted by You</h1>
+{% extends "layout.html" %} {% block content %}
+
+<h3 class="text-center border-bottom">Events Posted by You</h3>
 
 <!-- Cards, looped using for -->
 <section>
-    <div class="container mt-5">
-        <div class="row">
-            {% for event in events.items %}
-            <div class="col-md-3 mb-5">
-                <div class="card" style="width: 18rem;">
-                    <img src="{{url_for('static', filename='banner_pics/' + event.banner)}}" class="card-img-top"
-                        alt="">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ event.name }} <small class="text-muted"> {{
-                                event.posted.strftime('%m-%d') }} </small></h5>
-                        <p class="card-text mb-2">{{ event.description }}</p>
-                        <div class="mb-2"><a class="text-decoration-none "
-                                href="{{ url_for('user_events', username=event.author.username) }}">{{
-                                event.author.username }}</a></div>
-
-                        <a href="{{ url_for('event', event_id=event.id) }}" class="btn btn-primary">Take to link</a>
-
-                    </div>
-                </div>
+  <div class="container mt-5">
+    <div class="row">
+      {% if events.items %} {% for event in events.items %}
+      <div class="col-md-3 mb-5">
+        <a href="{{ url_for('event', event_id=event.id) }}" class="card">
+          <img
+            src="{{url_for('static', filename='banner_pics/' + event.banner)}}"
+            class="card__image"
+            alt=""
+          />
+          <div class="card__overlay">
+            <div class="card__header">
+              <div class="card__header-text">
+                <h2 class="card__title">{{ event.name }}</h2>
+                <span class="card__status"
+                  >{{ event.posted.strftime("%b %d") }}
+                </span>
+              </div>
             </div>
+            <p class="card__des">{{ event.description | truncate(70) }}...</p>
+            <p class="card__description" style="font-size: 0.8em">
+              - {{ event.author.username }}
+            </p>
+          </div>
+        </a>
+      </div>
 
-
-            {% endfor %}
-
-
-        </div>
+      {% endfor %} {% else %}
+      <div>You have not posted any Events.</div>
+      {% endif %}
     </div>
-
-
-
+  </div>
+  <br />
+  <br />
+  <br />
+  <br />
 </section>
 
-{% for page_num in events.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-{% if page_num %}
-{% if events.page == page_num %}
-<a class="btn btn-dark mb-4" href="{{ url_for('user_events', username =user.username, page=page_num) }}">{{ page_num
-    }}</a>
+{% for page_num in events.iter_pages(left_edge=1, right_edge=1, left_current=1,
+right_current=2) %} {% if page_num %} {% if events.page == page_num %}
+<a
+  class="btn btn-dark mb-4"
+  href="{{ url_for('user_events', username =user.username, page=page_num) }}"
+  >{{ page_num }}</a
+>
 {% else %}
-<a class="btn btn-outline-dark mb-4" href="{{ url_for('user_events', username =user.username, page=page_num) }}">{{
-    page_num }}</a>
-{% endif %}
-{% else %}
-...
-{% endif %}
-{% endfor %}
-{% endblock content %}
+<a
+  class="btn btn-outline-dark mb-4"
+  href="{{ url_for('user_events', username =user.username, page=page_num) }}"
+  >{{ page_num }}</a
+>
+{% endif %} {% else %} ... {% endif %} {% endfor %} {% endblock content %}

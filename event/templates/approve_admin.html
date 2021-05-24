@@ -1,39 +1,38 @@
-{% extends "layout.html" %}
-{% block content %}
+{% extends "layout.html" %} {% block content %}
 
-    <!-- Cards, looped using for -->
-    <section>
-        <div class="container mt-5">
-        <div class="row">
-          
-          {% for event in event_value %}
-            {% if event.is_verified == False %}
-            <div class="col-md-3 mb-5">
-                <div class="card" style="width: 18rem;">
-                    <img src="{{url_for('static', filename='banner_pics/' + event.banner)}}" class="card-img-top" alt="">
-                    <div class="card-body">
-                      <h5 class="card-title">{{ event.name }} <small class="text-muted"> {{ event.posted.strftime('%m-%d') }} </small></h5>
-                      <p class="card-text mb-2">{{ event.description }}</p>
-                      <div class="mb-2"><a class="text-decoration-none " href="{{ url_for('user_events', username=event.author.username) }}">{{ event.author.username }}</a></div>
-                      
-                      <a href="{{ url_for('event_approve', event_id=event.id) }}" class="btn btn-primary">Event Details</a>
-                      
-                    </div>
-                  </div>
+<!-- Cards, looped using for -->
+<section>
+  <h3 class="text-center border-bottom">Events to be Approved.</h3>
+  <div class="container mt-5">
+    <div class="row">
+      {% for event in event_value %} {% if event.is_verified == False %}
+       <div class="col-md-3 mb-5">
+        <a href="{{ url_for('event_approve', event_id=event.id) }}" class="card">
+          <img
+            src="{{url_for('static', filename='banner_pics/' + event.banner)}}"
+            class="card__image"
+            alt=""
+          />
+          <div class="card__overlay">
+            <div class="card__header">
+              <div class="card__header-text">
+                <h2 class="card__title">{{ event.name }}</h2>
+                <span class="card__status"
+                  >{{ event.posted.strftime("%b %d") }}
+                </span>
+              </div>
             </div>
-            
-            {% endif %}
-          {% endfor %}
-           
+            <p class="card__des">{{ event.description | truncate(70) }}...</p>
+            <p class="card__description" style="font-size: 0.8em">
+              - {{ event.author.username }}
+            </p>
+          </div>
+        </a>
+      </div>
 
-        </div>
-        </div>
+      {% endif %} {% endfor %}
+    </div>
+  </div>
+</section>
 
-
-
-    </section>
-
-    
 {% endblock content %}
-
-
