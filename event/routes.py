@@ -389,12 +389,13 @@ def resett_token(token):
         check_user=User.query.filter_by(username=temp.username).all()
         if len(check_user)>0:
             Temp.query.filter_by(username=temp.username).delete()
+            db.session.commit()
             flash('Username has already been taken','warning')
             return redirect(url_for('register'))
         user = User(username=temp.username, email=temp.email, password=temp.password)
         db.session.add(user)
-        db.session.commit()
         Temp.query.filter_by(email=temp.email).delete()
+        db.session.commit()
         flash('Your account has been created! You are now able to log in', 'success')
         return redirect(url_for('login'))
 
