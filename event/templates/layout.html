@@ -59,7 +59,7 @@
     <header class="site-header">
       <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
         <div id="navi" class="container-fluid">
-          <a class="navbar-brand" href="{{ url_for('home') }}">EventHub</a>
+          <a class="navbar-brand" href="{{ url_for('main.home') }}">EventHub</a>
           <button
             class="navbar-toggler"
             type="button"
@@ -78,12 +78,12 @@
                 <a
                   class="nav-link active"
                   aria-current="page"
-                  href="{{ url_for('home') }}"
+                  href="{{ url_for('main.home') }}"
                   >Home</a
                 >
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('about') }}">About</a>
+                <a class="nav-link" href="{{ url_for('main.about') }}">About</a>
               </li>
             </ul>
           
@@ -109,33 +109,33 @@
               >
                 {% if current_user.is_admin %}
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('approve_admin') }}"
+                  <a class="dropdown-item" href="{{ url_for('events.approve_admin') }}"
                     >Approve Event</a
                   >
                 </li>
                 {% endif %}
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('new_event') }}"
+                  <a class="dropdown-item" href="{{ url_for('events.new_event') }}"
                     >Add an Event</a
                   >
                 </li>
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('reg_event') }}"
+                  <a class="dropdown-item" href="{{ url_for('events.reg_event') }}"
                     >Registered Event</a
                   >
                 </li>
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('user_event') }}"
+                  <a class="dropdown-item" href="{{ url_for('users.user_event') }}"
                     >My Event</a
                   >
                 </li>
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('account') }}"
+                  <a class="dropdown-item" href="{{ url_for('users.account') }}"
                     >Account</a
                   >
                 </li>
                 <li>
-                  <a class="dropdown-item" href="{{ url_for('logout') }}"
+                  <a class="dropdown-item" href="{{ url_for('users.logout') }}"
                     >Logout</a
                   >
                 </li>
@@ -143,10 +143,10 @@
             </div>
 
             {% else %}
-            <a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>
+            <a class="nav-item nav-link" href="{{ url_for('users.login') }}">Login</a>
             <a
               class="btn btn-dark ms-2 grow shadow-none"
-              href="{{ url_for('register') }}"
+              href="{{ url_for('users.register') }}"
               >&nbsp;Register&nbsp;</a
             >
             {% endif %}
@@ -184,34 +184,34 @@
               <ul style="list-style-type: none; margin: 0; padding: 0">
                 {% if current_user.is_admin %}
                 <li>
-                  <a id="footer_text_b" href="{{ url_for('approve_admin') }}"
+                  <a id="footer_text_b" href="{{ url_for('events.approve_admin') }}"
                     >Approve Event</a
                   >
                 </li>
 
                 {% endif %}
                 <li>
-                  <a id="footer_text_b" href="{{ url_for('new_event') }}"
+                  <a id="footer_text_b" href="{{ url_for('events.new_event') }}"
                     >Add an Event</a
                   >
                 </li>
                 <li>
-                  <a id="footer_text_b" href="{{ url_for('reg_event') }}"
+                  <a id="footer_text_b" href="{{ url_for('events.reg_event') }}"
                     >Registered Event</a
                   >
                 </li>
                 <li>
-                  <a id="footer_text_b" href="{{ url_for('user_event') }}"
+                  <a id="footer_text_b" href="{{ url_for('users.user_event') }}"
                     >My Event</a
                   >
                 </li>
                 <li>
-                  <a id="footer_text_b" href="{{ url_for('account') }}"
+                  <a id="footer_text_b" href="{{ url_for('users.account') }}"
                     >Account</a
                   >
                 </li>
                 <li>
-                  <a id="footer_text_b" href="{{ url_for('logout') }}"
+                  <a id="footer_text_b" href="{{ url_for('users.logout') }}"
                     >Logout</a
                   >
                 </li>
@@ -221,10 +221,10 @@
             {% else %}
             <ul style="list-style-type: none; margin: 0; padding: 0">
               <li>
-                <a id="footer_text_b" href="{{ url_for('login') }}">Login</a>
+                <a id="footer_text_b" href="{{ url_for('users.login') }}">Login</a>
               </li>
               <li>
-                <a id="footer_text_b" href="{{ url_for('register') }}"
+                <a id="footer_text_b" href="{{ url_for('users.register') }}"
                   >Register</a
                 >
               </li>

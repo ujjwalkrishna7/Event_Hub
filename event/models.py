@@ -1,6 +1,6 @@
-from flask import abort
+from flask import abort,current_app
 from datetime import datetime
-from event import db, login_manager,app, admin # type: ignore
+from event import db, login_manager, admin # type: ignore
 from flask_login import UserMixin, current_user
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask_admin.contrib.sqla import ModelView
@@ -23,12 +23,12 @@ class User(db.Model,UserMixin):
         return f"User('{self.username},'{self.email}','{self.image_file}')"
 
     def get_reset_token(self, expires_sec=1800):
-        s = Serializer(app.config['SECRET_KEY'], expires_sec)
+        s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
         return s.dumps({'user_id': self.id}).decode('utf-8')
 
     @staticmethod
     def verify_reset_token(token):
-        s = Serializer(app.config['SECRET_KEY'])
+        s = Serializer(current_app.config['SECRET_KEY'])
         try:
             user_id = s.loads(token)['user_id']
         except:
@@ -60,12 +60,12 @@ class Registered(db.Model):
         return f"User('{self.eventId},'{self.userId}','{self.userMail}')"    
 
     def get_reset_token(self, expires_sec=1800):
-        s = Serializer(app.config['SECRET_KEY'], expires_sec)
+        s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
         return s.dumps({'user_id': self.id}).decode('utf-8')
 
     @staticmethod
     def verify_reset_token(token):
-        s = Serializer(app.config['SECRET_KEY'])
+        s = Serializer(current_app.config['SECRET_KEY'])
         try:
             user_id = s.loads(token)['user_id']
         except:
@@ -92,12 +92,12 @@ class Temp(db.Model,UserMixin):
         return f"Temp('{self.username}','{self.email}','{self.password}')" 
 
     def get_verification_email(self,expires_sec=1800):
-        s= Serializer(app.config['SECRET_KEY'],expires_sec)
+        s= Serializer(current_app.config['SECRET_KEY'],expires_sec)
         return s.dumps({'temp_id':self.id}).decode('utf-8')
 
     @staticmethod
     def verify_email(token):
-        s = Serializer(app.config['SECRET_KEY'])
+        s = Serializer(current_app.config['SECRET_KEY'])
         try:
             temp_id = s.loads(token)['temp_id']
         except:

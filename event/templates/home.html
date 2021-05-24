@@ -7,7 +7,7 @@
     <div class="row">
       {% for event in event_value.items %} {% if event.is_verified == True %}
       <div class="col-md-3 mb-5">
-        <a href="{{ url_for('event', event_id=event.id) }}" class="card">
+        <a href="{{ url_for('events.event', event_id=event.id) }}" class="card">
           <img
             src="{{url_for('static', filename='banner_pics/' + event.banner)}}"
             class="card__image"
@@ -18,7 +18,7 @@
               <div class="card__header-text">
                 <h2 class="card__title">{{ event.name }}</h2>
                 <span class="card__status"
-                  >{{ event.posted.strftime("%b %d") }}
+                  >{{ event.date.strftime("%b %d") }}
                 </span>
               </div>
             </div>
@@ -39,13 +39,13 @@ left_current=1, right_current=2) %} {% if page_num %} {% if event_value.page ==
 page_num %}
 <a
   class="btn btn-dark mb-4 shadow-none"
-  href="{{ url_for('home', page=page_num) }}"
+  href="{{ url_for('main.home', page=page_num) }}"
   >{{ page_num }}</a
 >
 {% else %}
 <a
   class="btn btn-dark mb-4 shadow-none"
-  href="{{ url_for('home', page=page_num) }}"
+  href="{{ url_for('main.home', page=page_num) }}"
   >{{ page_num }}</a
 >
 {% endif %} {% else %} ... {% endif %} {% endfor %} {% endblock content %}

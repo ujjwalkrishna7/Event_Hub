@@ -7,7 +7,7 @@
     <div class="row">
       {% for event in event_value %} {% if event.is_verified == False %}
        <div class="col-md-3 mb-5">
-        <a href="{{ url_for('event_approve', event_id=event.id) }}" class="card">
+        <a href="{{ url_for('events.event_approve', event_id=event.id) }}" class="card">
           <img
             src="{{url_for('static', filename='banner_pics/' + event.banner)}}"
             class="card__image"

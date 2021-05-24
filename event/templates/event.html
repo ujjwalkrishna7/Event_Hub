@@ -50,7 +50,7 @@
               Email to notify the participants to confirm attendence here:
               <a
                 class="btn btn-secondary btn-sm inline"
-                href="{{ url_for('confirm', event_id=event.id) }}"
+                href="{{ url_for('events.confirm', event_id=event.id) }}"
                 >Notify</a
               >
             </p>
@@ -65,7 +65,7 @@
           <div>
             <a
               class="btn btn-secondary btn-sm mt-1 mb-1"
-              href="{{ url_for('update_event', event_id=event.id) }}"
+              href="{{ url_for('events.update_event', event_id=event.id) }}"
               >Update</a
             >
             <button
@@ -135,7 +135,7 @@
           Close
         </button>
         <form
-          action="{{ url_for('delete_event', event_id=event.id) }}"
+          action="{{ url_for('events.delete_event', event_id=event.id) }}"
           method="POST"
         >
           <input type="submit" class="btn btn-danger" value="Delete" />
@@ -168,7 +168,7 @@
 
       <div class="modal-footer">
         <form
-          action="{{ url_for('register_event',event_id = event.id) }}"
+          action="{{ url_for('events.register_event',event_id = event.id) }}"
           method="POST"
         >
           <input type="submit" class="btn btn-success" value="Yes" />

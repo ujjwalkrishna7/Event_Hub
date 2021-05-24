@@ -8,7 +8,7 @@
     <div class="row">
       {% if events.items %} {% for event in events.items %}
       <div class="col-md-3 mb-5">
-        <a href="{{ url_for('event', event_id=event.id) }}" class="card">
+        <a href="{{ url_for('events.event', event_id=event.id) }}" class="card">
           <img
             src="{{url_for('static', filename='banner_pics/' + event.banner)}}"
             class="card__image"
@@ -46,13 +46,13 @@
 right_current=2) %} {% if page_num %} {% if events.page == page_num %}
 <a
   class="btn btn-dark mb-4"
-  href="{{ url_for('user_events', username =user.username, page=page_num) }}"
+  href="{{ url_for('users.user_events', username =user.username, page=page_num) }}"
   >{{ page_num }}</a
 >
 {% else %}
 <a
   class="btn btn-outline-dark mb-4"
-  href="{{ url_for('user_events', username =user.username, page=page_num) }}"
+  href="{{ url_for('users.user_events', username =user.username, page=page_num) }}"
   >{{ page_num }}</a
 >
 {% endif %} {% else %} ... {% endif %} {% endfor %} {% endblock content %}
