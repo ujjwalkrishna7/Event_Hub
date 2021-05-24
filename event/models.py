@@ -80,6 +80,30 @@ class Controller(ModelView):
         else:
             return abort(404)
 
+
+class Temp(db.Model,UserMixin):
+    id = db.Column(db.Integer, primary_key = True)
+    username = db.Column(db.String(50),nullable=False)
+    email = db.Column(db.String(120),nullable = False) 
+    password = db.Column(db.String(60),nullable=False)
+ 
+
+    def __repr__(self):
+        return f"Temp('{self.username}','{self.email}','{self.password}')" 
+
+    def get_verification_email(self,expires_sec=1800):
+        s= Serializer(app.config['SECRET_KEY'],expires_sec)
+        return s.dumps({'temp_id':self.id}).decode('utf-8')
+
+    @staticmethod
+    def verify_email(token):
+        s = Serializer(app.config['SECRET_KEY'])
+        try:
+            temp_id = s.loads(token)['temp_id']
+        except:
+            return None
+        return Temp.query.get(temp_id)
+
         
 
 
