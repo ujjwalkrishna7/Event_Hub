@@ -1,10 +1,38 @@
+![BFH Banner](https://trello-attachments.s3.amazonaws.com/542e9c6316504d5797afbfb9/542e9c6316504d5797afbfc1/39dee8d993841943b5723510ce663233/Frame_19.png)
+
 # Event_Hub
-An Event Portal for college events.
+An Event Portal for college events. 
+Are u a college student who ever wanted to host their college event on a website,
+where students can register for your clubs events but you're too broke to afford 
+one online. Then EvenHub is the perfect freemium alternative you'll ever need.
+
+--------------------------------------------------------------------------------------------
 
 Web link:
 https://event-hub-0.herokuapp.com
 
 --------------------------------------------------------------------------------------------
+
+
+## Team members
+1. Ujjwal Krishna [https://github.com/ujjwalkrishna7/]
+2. Saurav S [https://github.com/Saurav-S-Purushothaman"]
+3. Rohith Nair [https://github.com/rohith-crypto]
+
+--------------------------------------------------------------------------------------------
+
+## Team Id
+BFH/reclUvKeoTZ4h37zE/2021
+
+--------------------------------------------------------------------------------------------
+
+## Link to product walkthrough
+[link to video]
+
+--------------------------------------------------------------------------------------------
+
+## How it Works ?
+
 GUIDE FOR GENERAL USERS:
 
 HOW TO CREATE AN ACCOUNT?
@@ -62,7 +90,59 @@ by the event organiser.
 
 --------------------------------------------------------------------------------------------
 
-PACKAGE DESCRIPTION:
+## Libraries used
+Here are the Libraries used in this Project:
+astroid==2.4.2
+bcrypt==3.2.0
+blinker==1.4
+cffi==1.14.5
+click==8.0.0
+colorama==0.4.4
+dnspython==2.1.0
+email-validator==1.1.2
+Flask==2.0.0
+Flask-Admin==1.5.8
+Flask-Bcrypt==0.7.1
+Flask-Login==0.5.0
+Flask-Mail==0.9.1
+Flask-SQLAlchemy==2.5.1
+Flask-WTF==0.14.3
+greenlet==1.1.0
+gunicorn==20.1.0
+idna==3.1
+isort==5.7.0
+itsdangerous==2.0.0
+Jinja2==3.0.0
+lazy-object-proxy==1.4.3
+MarkupSafe==2.0.0
+mccabe==0.6.1
+numpy==1.19.4
+Pillow==8.2.0
+psycopg2==2.8.6
+pycparser==2.20
+pylint==2.6.0
+python-dotenv==0.17.1
+python-speech-features==0.6
+six==1.15.0
+SQLAlchemy==1.4.15
+toml==0.10.2
+Werkzeug==2.0.0
+wrapt==1.12.1
+WTForms==2.3.3
+
+--------------------------------------------------------------------------------------------
+
+## How to configure
+Use the config.py file in the event directory to configure the web app.
+
+--------------------------------------------------------------------------------------------
+
+## How to Run
+Run this command "python run.py" from the root folder in terminal.
+
+--------------------------------------------------------------------------------------------
+
+## PACKAGE DESCRIPTION:
 
 run.py: This is used to get the web application running
 event: This is the package containing all the modules required for the web
@@ -75,3 +155,5 @@ templates:Contains the html pages
 Users:Module containing forms and routes of events
 config.py: Contains the configurations of the web page
 models.py: Contains the classes of Users and Post
+
+--------------------------------------------------------------------------------------------
