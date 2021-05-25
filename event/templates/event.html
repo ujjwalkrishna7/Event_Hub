@@ -1,6 +1,5 @@
 {% extends "layout.html" %} {% block content %}
 
-<!-- Cards, looped using for -->
 <section>
   <div class="container mt-5 event_card">
     <div class="row">
@@ -43,7 +42,7 @@
           </p>
 
           {% if current_user.is_authenticated %} {% if event.author ==
-          current_user %}
+          current_user or current_user.is_admin %}
 
           <div>
             <p>

@@ -7,7 +7,7 @@
         <div class="container mt-5">
         <div class="row">
             {% for event in events.items %}
-            <div class="col-md-3 mb-5">
+            <div class="col-lg-3 col-md-6 mb-5">
                 <div class="card" style="width: 18rem;">
                     <img src="{{url_for('static', filename='banner_pics/' + event.banner)}}" class="card-img-top" alt="">
                     <div class="card-body">
