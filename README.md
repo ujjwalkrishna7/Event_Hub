@@ -4,8 +4,8 @@ An Event Portal for college events.
 Web link:
 https://event-hub-0.herokuapp.com
 
-
-Guide for General Users:
+--------------------------------------------------------------------------------------------
+GUIDE FOR GENERAL USERS:
 
 HOW TO CREATE AN ACCOUNT?
 
@@ -60,7 +60,10 @@ registered for the event are send an email to confirm their attendance. The user
 confirmed their attendance for the event are then listed in the event page to be viewed only
 by the event organiser.
 
-Package Description:
+--------------------------------------------------------------------------------------------
+
+PACKAGE DESCRIPTION:
+
 run.py: This is used to get the web application running
 event: This is the package containing all the modules required for the web
 application.
