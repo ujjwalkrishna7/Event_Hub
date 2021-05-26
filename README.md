@@ -7,7 +7,7 @@ where students can register for your clubs events but you're too broke to afford
 one online. Then EvenHub is the perfect freemium alternative you'll ever need.
 
 
-##Live Web link:
+## Live Web link:
 https://event-hub-0.herokuapp.com
 
 
