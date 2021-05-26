@@ -9,7 +9,7 @@ class EventForm(FlaskForm):
     description = TextAreaField('Description', validators=[DataRequired()])
     venue = StringField('Venue', validators=[DataRequired()])
     date = DateField('Date', format='%Y-%m-%d', validators=[DataRequired()])
-    time = TimeField('Time',validators=[DataRequired()])
+    time = TimeField('Time [HH:MM]',validators=[DataRequired()])
     max = IntegerField('Maximum Participants',validators=[DataRequired()])
     banner =FileField('Update Banner', validators=[FileAllowed(['jpg', 'png','jpeg','jfif']),InputRequired()])
     submit = SubmitField('Submit')

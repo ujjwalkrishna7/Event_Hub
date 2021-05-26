@@ -5,7 +5,7 @@
 <br>
 {% if event_list %}
 {% for i in range(size) %}
-   <p><strong><em>{{ event_list[i].name }}</em></strong> on {{ event_list[i].date.strftime("%b %d")}} at {{ event_list[i].time }} pm, <em>Venue:</em> <strong>{{ event_list[i].venue }}</strong></p>
+   <p><strong><em>{{ event_list[i].name }}</em></strong> on {{ event_list[i].date.strftime("%b %d")}} at {{ event_list[i].time }}, <em>Venue:</em> <strong>{{ event_list[i].venue }}</strong></p>
 {% endfor %}
 {% else %}
 <div>You have not registered for any Events.</div>
