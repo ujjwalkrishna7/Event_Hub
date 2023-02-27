@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, SubmitField, TextAreaField,TimeField,IntegerField
 from wtforms.validators import DataRequired, InputRequired
-from wtforms.fields.html5 import DateField
+from wtforms.fields import DateField
 
 class EventForm(FlaskForm):
     name = StringField('Event Name', validators=[DataRequired()])
