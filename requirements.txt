@@ -25,7 +25,7 @@ lazy-object-proxy==1.4.3
 Mako==1.2.4
 MarkupSafe==2.0.0
 mccabe==0.6.1
-numpy==1.24.0
+numpy==1.21.6
 Pillow==9.2.0
 psycopg2==2.9.5
 psycopg2-binary==2.9.5
